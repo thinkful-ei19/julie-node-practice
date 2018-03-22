@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-expressions */
 'use strict';
 
 const app = require('../');
@@ -35,6 +36,24 @@ describe('Todo app', function() {
           expect(res.body).to.be.an('object');
           expect(res.body).to.have.keys(['id', 'isDone', 'text']);
         });
+    });
+  });
+
+  describe('POST `/api/todos/`', function() {
+    it('should create a new todo', function() {
+      expect(true).to.be.false;
+    });
+  });
+
+  describe('PUT `/api/todos/`', function() {
+    it('should update an existing todo', function() {
+      expect(true).to.be.false;
+    });
+  });
+
+  describe('PUT `/api/todos/`', function() {
+    it('should delete an existing todo', function() {
+      expect(true).to.be.false;
     });
   });
 });
