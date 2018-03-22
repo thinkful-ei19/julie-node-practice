@@ -1,21 +1,14 @@
-/* eslint-disable no-unused-expressions */
 'use strict';
-
-const chai = require('chai');
-const chaiHttp = require('chai-http');
 
 const mongoose = require('mongoose');
 
-const {TEST_MONGODB_URI} = require('../config');
+const { TEST_MONGODB_URI } = require('../config');
 
-const expect = chai.expect;
-chai.use(chaiHttp);
-
-before(function () {
+before(function() {
   process.stdout.write('\x1Bc\n');
   return mongoose.connect(TEST_MONGODB_URI);
 });
 
-after(function () {
+after(function() {
   return mongoose.disconnect();
 });
