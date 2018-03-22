@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-expressions */
 'use strict';
 
 const chai = require('chai');
@@ -11,6 +12,7 @@ const expect = chai.expect;
 chai.use(chaiHttp);
 
 before(function () {
+  process.stdout.write('\x1Bc\n');
   return mongoose.connect(TEST_MONGODB_URI);
 });
 
