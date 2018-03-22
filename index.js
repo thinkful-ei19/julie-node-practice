@@ -44,6 +44,7 @@ app.use(function (err, req, res, next) {
 
 // Listen for incoming connections
 if (require.main === module) {
+  /* eslint-disable no-console */
   mongoose.connect(MONGODB_URI)
     .then(instance => {
       const conn = instance.connections[0];
