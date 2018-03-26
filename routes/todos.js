@@ -14,4 +14,10 @@ router.get('/:id', function(req, res) {
   res.json(todos.find(todo => todo.id === id));
 });
 
+router.post('/', function(req, res) {
+  const {text} = req.body;
+  
+
+});
+
 module.exports = router;

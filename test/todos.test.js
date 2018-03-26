@@ -14,13 +14,13 @@ describe('Todo app', function() {
   describe('GET `/api/todos`', function() {
     it('should get a list of Todos', function() {
       return chai
-      .request(app)
-      .get('/api/todos')
-      .then(function(res) {
-        expect(res).to.have.status(200);
-        expect(res.body).to.be.an('array');
-        expect(res.body).to.have.lengthOf(todos.length);
-      });
+        .request(app)
+        .get('/api/todos')
+        .then(function(res) {
+          expect(res).to.have.status(200);
+          expect(res.body).to.be.an('array');
+          expect(res.body).to.have.lengthOf(todos.length);
+        });
     });
   });
   
@@ -28,19 +28,23 @@ describe('Todo app', function() {
     it('should get a single todo', function() {
       const testId = '00000000000000';
       return chai
-      .request(app)
-      .get(`/api/todos/${testId}`)
-      .then(function(res) {
-        expect(res).to.have.status(200);
-        expect(res.body).to.be.an('object');
-        expect(res.body).to.have.keys(['id', 'isDone', 'text']);
-      });
+        .request(app)
+        .get(`/api/todos/${testId}`)
+        .then(function(res) {
+          expect(res).to.have.status(200);
+          expect(res.body).to.be.an('object');
+          expect(res.body).to.have.keys(['id', 'isDone', 'text']);
+        });
     });
   });
   
   describe('POST `/api/todos/`', function() {
     it('should create a new todo', function() {
-      expect(true).to.be.false;
+      return chai
+        .then(function(res) {
+          expect(true).to.be.false;
+          expect(res).to.have.status(200);
+        });
     });
   });
 
