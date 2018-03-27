@@ -7,4 +7,12 @@ const toDoSchema = new mongoose.Schema({
   isDone: {type: Boolean, default: false}
 });
 
-module.export = mongoose.model('ToDo', toDoSchema);
+toDoSchema.set('toObject', {
+  transform: function (doc, ret) {
+    ret.id = ret._id;
+    delete ret._id;
+    delete ret.__v;
+  }
+});
+
+module.exports = mongoose.model('Todo', toDoSchema);
