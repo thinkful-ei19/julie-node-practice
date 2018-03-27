@@ -7,34 +7,40 @@ const chaiHttp = require('chai-http');
 const expect = chai.expect;
 
 chai.use(chaiHttp);
-
-const todos = require('../db/seed/todos');
+const Todo = require('../models/todo');
 
 describe('Todo app', function() {
   describe('GET `/api/todos`', function() {
     it('should get a list of Todos', function() {
-      return chai
-        .request(app)
-        .get('/api/todos')
-        .then(function(res) {
+      const dbPromise = Todo.find();
+      const apiPromise = chai.request(app).get('/api/todos');
+      return Promise.all([dbPromise, apiPromise])
+        .then(function([data, res]) {
           expect(res).to.have.status(200);
           expect(res.body).to.be.an('array');
-          expect(res.body).to.have.lengthOf(todos.length);
+          expect(res.body).to.have.lengthOf(data.length);
         });
     });
   });
   
   describe('GET `/api/todos/:id`', function() {
-    it('should get a single todo', function() {
-      const testId = '00000000000000';
-      return chai
-        .request(app)
-        .get(`/api/todos/${testId}`)
-        .then(function(res) {
-          expect(res).to.have.status(200);
-          expect(res.body).to.be.an('object');
-          expect(res.body).to.have.keys(['id', 'isDone', 'text']);
-        });
+    it.only('should get a single todo', function() {
+      const dbPromise = Todo.findOne();
+      let data;
+      dbPromise.then(function(_data) {
+        data = _data;
+        console.log(dbPromise);
+        console.log(data);
+        return chai
+          .request(app)
+          .get(`/api/todos/${data.id}`)
+          .then(function(res) {
+            expect(res).to.have.status(200);
+            expect(res.body).to.be.an('object');
+            expect(res.body).to.have.keys(['id', 'isDone', 'text']);
+          });
+      });
+
     });
   });
   

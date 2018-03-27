@@ -5,7 +5,7 @@ const router = express.Router();
 
 const todos = require('../db/seed/todos');
 const mongoose = require('mongoose');
-const Todo = require('../models/models');
+const Todo = require('../models/todo');
 
 router.get('/', function(req, res) {
   Todo.find()
@@ -14,10 +14,19 @@ router.get('/', function(req, res) {
     });
 });
 
-router.get('/:id', function(req, res) {
-  const id = req.params.id;
-  
-  res.json(todos.find(todo => todo.id === id));
+router.get('/:id', function(req, res, next) {
+  const {id} = req.params;
+  Todo.findById(id)
+    .then(result => {
+      if (result) {
+        res.json(result);
+      } else {
+        next();
+      }
+    })
+    .catch(err => {
+      next(err);
+    });
 });
 
 router.post('/', function(req, res, next) {
@@ -31,9 +40,11 @@ router.post('/', function(req, res, next) {
   const newToDo = {text};
   Todo.create(newToDo)
     .then(result => {
-      res.sendStatus(204);
+      res.location(`${req.originalUrl}/${result.id}`).status(201).json(result);
+    })
+    .catch(err => {
+      next(err);
     });
-
 });
 
 router.put('/:id', (req, res, next) => {
@@ -47,7 +58,7 @@ router.put('/:id', (req, res, next) => {
 
   const toUpdate = { text, isDone };
   const options = { new : true };
-  ToDo.findByIdAndUpdate(req.params.id, toUpdate, options)
+  Todo.findByIdAndUpdate(req.params.id, toUpdate, options)
     .then(result => {
       if(result) {
         res.json(result);
@@ -63,7 +74,7 @@ router.put('/:id', (req, res, next) => {
 router.delete('/:id', (req, res, next) => {
   const {id} = req.params;
 
-  ToDo.findByIdAndRemove(id)
+  Todo.findByIdAndRemove(id)
     .then(() => {
       res.status(204).end();
     })

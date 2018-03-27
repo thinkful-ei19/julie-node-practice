@@ -6,7 +6,7 @@ const mongoose = require('mongoose');
 
 const { PORT, MONGODB_URI } = require('./config');
 
-const todosRouter = require('./routes/todos');
+const todosRouter = require('./routes/todo');
 
 // Create an Express application
 const app = express();
