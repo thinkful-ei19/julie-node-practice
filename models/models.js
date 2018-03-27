@@ -2,8 +2,8 @@
 
 const mongoose = require('mongoose');
 
-const toDoSchema = new mongoose.schema({
-  title: {type: String, required: true},
+const toDoSchema = new mongoose.Schema({
+  text: {type: String, required: true},
   isDone: {type: Boolean, default: false}
 });
 

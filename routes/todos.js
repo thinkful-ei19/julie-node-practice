@@ -1,8 +1,11 @@
 'use strict';
 
+const express = require('express');
 const router = require('express').Router();
 
 const todos = require('../db/seed/todos');
+const mongoose = require('mongoose');
+const ToDo = require('../models/models');
 
 router.get('/', function(req, res) {
   res.json(todos);
@@ -22,9 +25,30 @@ router.post('/', function(req, res, next) {
     return next(err);
   }
 
-  const newToDo = {text, id:'00000000000002', isDone:false};
+  const newToDo = {text, isDone};
   todos.push(newToDo); //always have to have id, text, isDone;
   res.json(newToDo);
+});
+
+router.put('/:id', (req, res, next) => {
+  if (!text) {
+    const err = new Error ('Missing `text` in request body');
+    err.status = 400;
+    return next(err);
+  }
+  const toUpdate = {text, isDone};
+  
+  ToDo.findByIdAndUpdate(id, toUpdate)
+    .then(result => {
+      if(result) {
+        res.json(result);
+      } else {
+        next();
+      }
+    })
+    .catch(err => {
+      next(err);
+    });
 });
 
 module.exports = router;
